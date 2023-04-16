@@ -1,0 +1,5 @@
+Request Type,Enquiry Type,Customer Request,Account Number,Buyback Balance,Payment Date,Payment Amount,Comment
+General,Customer Contact Details,No,12345678,,,,Please provide current address
+Buyback,Sold In Error,,56983,"$2,000.00",,,Account incorrectly sold due to ….
+Complaint,,Yes,11555,,,,Customer called on …..
+Direct Payment Notification,,,22333,,1/01/2022,$50.00,Please update your system

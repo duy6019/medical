@@ -1,0 +1,135 @@
+﻿@model PdfGenerator.Models.ComplianceFormModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PdfGenerator
+@{
+    Layout = null;
+}
+<style>
+    * {
+        font-family: sans-serif;
+        font-size: 14px;
+    }
+
+    hr {
+        width: 100%;
+        height: 1px;
+        border-color: black;
+        background-color: black;
+    }
+</style>
+
+<h3>COMPLIANCE FORM</h3>
+<strong>Lodged on behalf:</strong> @Model.Company
+<br />
+<strong>For Client:</strong> @Model.Client
+<br />
+<strong>For Reporting period:</strong> @Model.ReportingTo?.ToString("yyyy-MM-dd") / @Model.ReportingTo?.ToString("yyyy-MM-dd")
+<br />
+
+<hr />
+
+<h4>
+    Reporting
+</h4>
+<form-answer question="Has the following report been provided since the last reporting period? Assigned Debts determined as unrecoverable where recovery action has ceased."
+             answer="@Model.QnAssignedDebtsResponse"
+             comments="@Model.QnAssignedDebtsComment"></form-answer>
+<br />
+<form-answer question="Has the following report been provided since the last reporting period? Internal complaints made with your compliance team, complaints dismissed and complaints closed."
+             answer="@Model.QnInternalComplaintsResponse"
+             comments="@Model.QnInternalComplaintsComment"></form-answer>
+<br />
+<form-answer question="Has the following report been provided since the last reporting period? External complaints made with applicable authority."
+             answer="@Model.QnExternalComplaintsResponse"
+             comments="@Model.QnExternalComplaintsComment"></form-answer>
+<br />
+<form-answer question="Has the following report been provided since the last reporting period? Bankruptcy applications filed in respect of Assigned Debts."
+             answer="@Model.QnBackruptcyApplicationResponse"
+             comments="@Model.QnBackruptcyApplicationComment"></form-answer>
+<br />
+<form-answer question="Has the following report been provided since the last reporting period? Litigation and enforcement actions planned and taken in respect of Assigned Debts."
+             answer="@Model.QnLitigationResponse"
+             comments="@Model.QnLitigationComment"></form-answer>
+<hr />
+<h4>
+    Customer Engagement
+</h4>
+<form-answer question="What is the recorded NPS score? (or equivalent customer satisfaction metric)"
+             answer="@Model.QnNPSScoreResponse"
+             comments="@Model.QnNPSScoreComment"></form-answer>
+<br />
+<form-answer question="What are the results of quality assurance initiatives?"
+             answer="@Model.QnQualityAssuranceResponse"
+             comments="@Model.QnQualityAssuranceComment"></form-answer>
+<br />
+<form-answer question="What are the results of call monitoring initiatives?"
+             answer="@Model.QnCallMonitoringResponse"
+             comments="@Model.QnCallMonitoringComment"></form-answer>
+<hr />
+<h4>
+    Declarations
+</h4>
+<form-answer question="Have there been any breaches of the ACCC/ASIC Debt Collection Guidelines since the last reporting period?"
+             answer="@Model.QnACCCResponse"
+             comments="@Model.QnACCCComment"></form-answer>
+<br />
+<form-answer question="Have there been any adverse media articles released in the popular press regarding your company?"
+             answer="@Model.QnAdverseMediaArticlesResponse"
+             comments="@Model.QnAdverseMediaArticlesComment"></form-answer>
+<br />
+<form-answer question="Have there been any threats to attract media attention, or adverse media articles released, regarding any of the debts assigned to the you by the client?"
+             answer="@Model.QnThreatsMediaAttentionResponse"
+             comments="@Model.QnThreatsMediaAttentionComment"></form-answer>
+<hr />
+<h4>
+    Documentation/ Business Structure
+</h4>
+<div>
+    <strong>Question: </strong>
+    <br />
+    Q.Have there been any changes to the following documentation since the last reporting period?  <br />
+                    1) Social Justice Policy <br />
+                    2) Code of Conduct <br />
+                    3) Hardship Policy <br />
+                    4) Debt Collection Customer Contact Responsibilities <br />
+                    5) Resolution of Complaints ad Disputes Procedures
+                    <br />
+    <strong>Answer: </strong> @Model.QnChangesToDocumentsResponse <br />
+    <strong>Comment: </strong> @Model.QnChangesToDocumentsComment <br />
+</div>
+<br />
+<form-answer question=" Have there been any changes to your business structure since the last reporting period?"
+             answer="@Model.QnBusinessStructureResponse"
+             comments="@Model.QnBusinessStructureComment"></form-answer>
+
+<hr />
+<h4>Attachments</h4>
+@if (Model.Attachments.Any())
+{
+
+    @foreach (var attachment in Model.Attachments)
+    {
+        @attachment
+        <br />
+    }
+}
+else
+{
+    <p>No attachments added</p>
+}
+<hr />
+<h4>Authorisation</h4>
+
+<strong>Date of this Record: </strong> @Model.SubmitDate?.ToString("dd/MM/yyyy")
+<br />
+<br />
+ I certify that all information reflected in this Compliance Checklist is true and accurate as at the date of this record
+<br />
+<br />
+<strong>Name: </strong> @Model.FirstName @Model.LastName
+<br />
+<strong>Position: </strong> @Model.Position
+<br />
+<strong>Signature: </strong>
+<br />
+<img src="@Model.Signature" />

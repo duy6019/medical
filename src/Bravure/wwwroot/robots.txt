@@ -1,0 +1,3 @@
+﻿# Block /terms-of-use
+User-agent: *
+Disallow: /terms-of-use
