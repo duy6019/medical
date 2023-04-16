@@ -47,52 +47,52 @@ namespace Bravure.Entities.Seed
 
         private static void SeedUsers(BravureDbContext context, string contentPath, UserManager<ApplicationUser> userMgr)
         {
-            try
-            {
-                var csvPath = Path.Combine(contentPath, "data\\seeddata", @"user.csv");
-                var users = GetData(new string[] { "firstname", "lastname", "email", "userid" }, csvPath, (string[] x) =>
-                {
-                    var firstname = x[0].Replace("\'", "").Trim('"').Trim();
-                    var lastname = x[1].Replace("\'", "").Trim('"').Trim();
-                    return new
-                    {
-                        UserName = $"{firstname.Split(' ').Last()}.{lastname.Split(' ').Last()}".ToLower(),
-                        FirstName = x[0],
-                        LastName = x[1],
-                        FullName = $"{x[0]} {x[1]}",
-                        Email = $"{firstname.Split(' ').Last()}.{lastname.Split(' ').Last()}@gmail.com".ToLower(),
-                        UserId = x.Length > 3 ? GetGuid(x[3]) : new Guid(),
-                        DateOfBirth = DateTime.Now
-                    };
-                }, () => null);
+            // try
+            // {
+            //     var csvPath = Path.Combine(contentPath, "data\\seeddata", @"user.csv");
+            //     var users = GetData(new string[] { "firstname", "lastname", "email", "userid" }, csvPath, (string[] x) =>
+            //     {
+            //         var firstname = x[0].Replace("\'", "").Trim('"').Trim();
+            //         var lastname = x[1].Replace("\'", "").Trim('"').Trim();
+            //         return new
+            //         {
+            //             UserName = $"{firstname.Split(' ').Last()}.{lastname.Split(' ').Last()}".ToLower(),
+            //             FirstName = x[0],
+            //             LastName = x[1],
+            //             FullName = $"{x[0]} {x[1]}",
+            //             Email = $"{firstname.Split(' ').Last()}.{lastname.Split(' ').Last()}@gmail.com".ToLower(),
+            //             UserId = x.Length > 3 ? GetGuid(x[3]) : new Guid(),
+            //             DateOfBirth = DateTime.Now
+            //         };
+            //     }, () => null);
 
-                foreach (var s in users)
-                {
-                    var user = userMgr.FindByNameAsync(s.UserName).Result;
-                    if (user == null)
-                    {
-                        user = new ApplicationUser()
-                        {
-                            Id = s.UserId,
-                            UserName = s.UserName,
-                            FullName = s.FullName,
-                            Email = s.Email
-                        };
-                        var result = userMgr.CreateAsync(user, _defaultPasswordd).Result;
-                        userMgr.AddToRoleAsync(user, "staff").Wait();
-                        if (!result.Succeeded)
-                        {
-                            throw new Exception(result.Errors.First().Description);
-                        }
-                        context.SaveChanges();
-                    }
-                }
-                context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //     foreach (var s in users)
+            //     {
+            //         var user = userMgr.FindByNameAsync(s.UserName).Result;
+            //         if (user == null)
+            //         {
+            //             user = new ApplicationUser()
+            //             {
+            //                 Id = s.UserId,
+            //                 UserName = s.UserName,
+            //                 FullName = s.FullName,
+            //                 Email = s.Email
+            //             };
+            //             var result = userMgr.CreateAsync(user, _defaultPasswordd).Result;
+            //             userMgr.AddToRoleAsync(user, "staff").Wait();
+            //             if (!result.Succeeded)
+            //             {
+            //                 throw new Exception(result.Errors.First().Description);
+            //             }
+            //             context.SaveChanges();
+            //         }
+            //     }
+            //     context.SaveChanges();
+            // }
+            // catch (Exception ex)
+            // {
+            //     throw ex;
+            // }
         }
 
         private static void SeedRoles(RoleManager<ApplicationRole> roleMgr)
