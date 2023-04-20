@@ -22,7 +22,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-
+using Bravure.Services;
 namespace Bravure
 {
     public class Startup
@@ -75,6 +75,13 @@ namespace Bravure
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IEmailHtmlParser, EmailHtmlParser>();
             services.AddTransient<IDateTime, DateTimeService>();
+            services.AddTransient<IUserAppService, UserAppService>();
+            services.AddTransient<IPatientService, PatientService>();
+            services.AddTransient<IMedicineService, MedicineService>();
+            services.AddTransient<IMedicalExaminationService, MedicalExaminationService>();
+            services.AddTransient<IMedicalAssistanceService, MedicalAssistanceService>();
+            services.AddTransient<IDepartmentService, DepartmentService>();
+            services.AddTransient<ICilinicExaminationService, CilinicExaminationService>();
 
             if (useDummyServices)
             {

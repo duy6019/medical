@@ -9,6 +9,17 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Abstractions\**" />
+      <Compile Remove="Areas\**" />
+      <Content Remove="Abstractions\**" />
+      <Content Remove="Areas\**" />
+      <EmbeddedResource Remove="Abstractions\**" />
+      <EmbeddedResource Remove="Areas\**" />
+      <None Remove="Abstractions\**" />
+      <None Remove="Areas\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="FluentValidation" Version="8.6.2" />
         <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
         <PackageReference Include="Humanizer.Core" Version="2.14.1" />
@@ -50,9 +61,7 @@
 
 
     <ItemGroup>
-        <Folder Include="Areas\" />
         <Folder Include="Migrations\" />
-        <Folder Include="Abstractions\" />
         <Folder Include="Services\" />
         <Folder Include="Entities\Enums\" />
         <Folder Include="Services\Abstractions\" />

@@ -27,8 +27,6 @@ namespace Bravure
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-            .UseIISIntegration()
-            .UseIIS()
             .UseStartup<Startup>();
     }
 }
