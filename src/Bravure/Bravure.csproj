@@ -64,7 +64,6 @@
         <Folder Include="Services\" />
         <Folder Include="Entities\Enums\" />
         <Folder Include="Services\Abstractions\" />
-        <Folder Include="Models\User\" />
     </ItemGroup>
 
     <ItemGroup>

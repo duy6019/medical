@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using Bravure.Entities;
-using Bravure.Models.User;
 
 namespace Bravure.Models.User
 {
-    public class UserMapProfile : Profile
+    public class MapProfile : Profile
     {
-        public UserMapProfile()
+        public MapProfile()
         {
             CreateMap<UserDto, ApplicationUser>();
             CreateMap<UserDto, ApplicationUser>()

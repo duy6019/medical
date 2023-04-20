@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Bravure.Entities;
 using Bravure.Services;
+using Bravure.Models.MedicalAssistances;
 
 namespace Bravure.Controllers
 {
     [ApiController]
-    [Route("api/MedicalAssistance")]
+    [Route("api/medical-assistance")]
     public class MedicalAssistanceController : ControllerBase
     {
-        private readonly IMedicalAssistanceService _MedicalAssistanceService;
+        private readonly IMedicalAssistanceService _medicalAssistanceService;
 
-        public MedicalAssistanceController(IMedicalAssistanceService MedicalAssistanceService)
+        public MedicalAssistanceController(IMedicalAssistanceService medicalAssistanceService)
         {
-            _MedicalAssistanceService = MedicalAssistanceService;
+            _medicalAssistanceService = medicalAssistanceService;
         }
 
         [HttpGet]
         [Route("{id}")]
         public ActionResult<MedicalAssistance> GetMedicalAssistance([FromRoute] Guid id)
         {
-            var MedicalAssistance = _MedicalAssistanceService.GetMedicalAssistance(id);
+            var MedicalAssistance = _medicalAssistanceService.GetMedicalAssistance(id);
             if (MedicalAssistance == null)
             {
                 return NotFound();
@@ -34,27 +35,27 @@ namespace Bravure.Controllers
         [Route("all")]
         public ActionResult<List<MedicalAssistance>> GetAllMedicalAssistances()
         {
-            var MedicalAssistances = _MedicalAssistanceService.GetAllMedicalAssistances();
+            var MedicalAssistances = _medicalAssistanceService.GetAllMedicalAssistances();
             return Ok(MedicalAssistances);
         }
 
         [HttpPost]
-        public ActionResult<MedicalAssistance> CreateMedicalAssistance(MedicalAssistance MedicalAssistance)
+        public ActionResult<MedicalAssistance> CreateMedicalAssistance(MedicalAssistanceDto dto)
         {
-            _MedicalAssistanceService.CreateMedicalAssistance(MedicalAssistance);
-            return CreatedAtAction(nameof(GetMedicalAssistance), new { id = MedicalAssistance.Id }, MedicalAssistance);
+            _medicalAssistanceService.CreateMedicalAssistance(dto);
+            return CreatedAtAction(nameof(GetMedicalAssistance), new { id = dto.Id }, dto);
         }
 
         [HttpPut]
         [Route("update/{id}")]
-        public IActionResult UpdateMedicalAssistance([FromRoute] Guid id, [FromBody] MedicalAssistance MedicalAssistance)
+        public IActionResult UpdateMedicalAssistance([FromRoute] Guid id, [FromBody] MedicalAssistanceDto dto)
         {
-            if (id != MedicalAssistance.Id)
+            if (id != dto.Id)
             {
                 return BadRequest();
             }
 
-            _MedicalAssistanceService.UpdateMedicalAssistance(MedicalAssistance);
+            _medicalAssistanceService.UpdateMedicalAssistance(dto);
             return NoContent();
         }
 
@@ -62,7 +63,7 @@ namespace Bravure.Controllers
         [Route("delete/{id}")]
         public IActionResult DeleteMedicalAssistance([FromRoute] Guid id)
         {
-            _MedicalAssistanceService.DeleteMedicalAssistance(id);
+            _medicalAssistanceService.DeleteMedicalAssistance(id);
             return NoContent();
         }
     }

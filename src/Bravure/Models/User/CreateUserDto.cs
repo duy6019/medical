@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Bravure.Entities;
+﻿using Bravure.Entities;
 using Bravure.Entities.Enums;
-using Microsoft.AspNetCore.Identity;
 
 namespace Bravure.Models.User
 {

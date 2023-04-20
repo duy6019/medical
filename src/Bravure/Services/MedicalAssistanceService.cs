@@ -1,23 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using Bravure.Entities;
-using Bravure.Entities.Enums;
-using Bravure.Entities.Abstractions;
 using System.Linq;
+using AutoMapper;
+using Bravure.Entities;
+using Bravure.Exceptions;
+using Bravure.Models.MedicalAssistances;
+
 namespace Bravure.Services;
 
 public class MedicalAssistanceService : IMedicalAssistanceService
 {
     private readonly BravureDbContext _context;
+    private readonly IMapper _mapper;
 
-    public MedicalAssistanceService(BravureDbContext context)
+    public MedicalAssistanceService(BravureDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
-    public void CreateMedicalAssistance(MedicalAssistance medicalAssistance)
+    public void CreateMedicalAssistance(MedicalAssistanceDto dto)
     {
-        _context.MedicalAssistances.Add(medicalAssistance);
+        if (_context.MedicalAssistances.Any(x => x.DisplayId == dto.DisplayId))
+        {
+            throw new BadRequestException("Mã dịch vũ tồn tại");
+        }
+        _context.MedicalAssistances.Add(_mapper.Map<MedicalAssistance>(dto));
         _context.SaveChanges();
     }
 
@@ -31,10 +39,13 @@ public class MedicalAssistanceService : IMedicalAssistanceService
         return _context.MedicalAssistances.ToList();
     }
 
-    public void UpdateMedicalAssistance(MedicalAssistance medicalAssistance)
+    public void UpdateMedicalAssistance(MedicalAssistanceDto dto)
     {
-        // Validation logic, if any
-        _context.MedicalAssistances.Update(medicalAssistance);
+        if (_context.MedicalAssistances.Any(x => x.DisplayId == dto.DisplayId && x.Id != dto.Id))
+        {
+            throw new BadRequestException("Mã dịch vũ tồn tại");
+        }
+        _context.MedicalAssistances.Update(_mapper.Map<MedicalAssistance>(dto));
         _context.SaveChanges();
     }
 
