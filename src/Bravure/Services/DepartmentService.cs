@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Bravure.Entities;
-using Bravure.Entities.Enums;
-using Bravure.Entities.Abstractions;
 using System.Linq;
+using Bravure.Entities;
+using Bravure.Exceptions;
+
 namespace Bravure.Services;
 
 public class DepartmentService : IDepartmentService
@@ -17,6 +17,10 @@ public class DepartmentService : IDepartmentService
 
     public void CreateDepartment(Department department)
     {
+        if (_context.Departments.Any(x => x.DisplayId == department.DisplayId))
+        {
+            throw new BadRequestException("Mã phòng ban tồn tại");
+        }
         _context.Departments.Add(department);
         _context.SaveChanges();
     }
@@ -33,7 +37,10 @@ public class DepartmentService : IDepartmentService
 
     public void UpdateDepartment(Department department)
     {
-        // Validation logic, if any
+        if (_context.Departments.Any(x => x.DisplayId == department.DisplayId && x.Id != department.Id))
+        {
+            throw new BadRequestException("Mã phòng ban tồn tại");
+        }
         _context.Departments.Update(department);
         _context.SaveChanges();
     }

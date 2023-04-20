@@ -17,6 +17,6 @@ namespace Bravure.Entities
         public string Address { get; set; }
         public string CitizenIdentification { get; set; }
 
-        public virtual ICollection<MedicalExamination> GetExaminations { get; set; }
+        public virtual ICollection<MedicalExamination> Examinations { get; set; }
     }
 }
