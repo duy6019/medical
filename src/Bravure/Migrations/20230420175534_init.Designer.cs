@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bravure.Migrations
 {
     [DbContext(typeof(BravureDbContext))]
-    [Migration("20230416124850_add department table")]
-    partial class adddepartmenttable
+    [Migration("20230420175534_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,9 +67,6 @@ namespace Bravure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("DeactivatedAt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("DepartmentId")
                         .HasColumnType("text");
 
@@ -86,9 +83,6 @@ namespace Bravure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("text");
-
                     b.Property<string>("FullName")
                         .HasColumnType("text");
 
@@ -96,12 +90,6 @@ namespace Bravure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("IdentityNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("LastName")
                         .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
@@ -248,6 +236,8 @@ namespace Bravure.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("MedicalAssistances");
                 });
@@ -507,6 +497,17 @@ namespace Bravure.Migrations
                         .IsRequired();
 
                     b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("Bravure.Entities.MedicalAssistance", b =>
+                {
+                    b.HasOne("Bravure.Entities.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("Bravure.Entities.MedicalExamination", b =>

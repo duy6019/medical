@@ -65,9 +65,6 @@ namespace Bravure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("DeactivatedAt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("DepartmentId")
                         .HasColumnType("text");
 
@@ -84,9 +81,6 @@ namespace Bravure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("text");
-
                     b.Property<string>("FullName")
                         .HasColumnType("text");
 
@@ -94,12 +88,6 @@ namespace Bravure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("IdentityNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("LastName")
                         .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
