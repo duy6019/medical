@@ -31,7 +31,7 @@ namespace Bravure.Controllers
         }
 
         [HttpGet]
-        [Route("patiens/all")]
+        [Route("all")]
         public ActionResult<List<Medicine>> GetAllMedicines()
         {
             var medicines = _medicineService.GetAllMedicines();
