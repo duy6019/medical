@@ -22,6 +22,14 @@ namespace Bravure.Models.User
             CreateMap<ApplicationUser, CreateUserDto>();
             CreateMap<ApplicationUser, CreateUserDto>()
                 .ForMember(x => x.Password, opt => opt.Ignore());
+
+            CreateMap<ApplicationUser, UpdateUserDto>();
+            CreateMap<ApplicationUser, UpdateUserDto>()
+                .ForMember(x => x.Password, opt => opt.Ignore());
+
+            CreateMap<UpdateUserDto, ApplicationUser>();
+            CreateMap<UpdateUserDto, ApplicationUser>()
+                .ForMember(x => x.Roles, opt => opt.Ignore());
         }
     }
 }

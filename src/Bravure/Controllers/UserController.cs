@@ -66,7 +66,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<UserDto>> UpdateUserAsync([FromRoute]Guid id, [FromBody]UserDto input)
+    public async Task<ActionResult<UserDto>> UpdateUserAsync([FromRoute]Guid id, [FromBody]UpdateUserDto input)
     {
         try
         {

@@ -9,7 +9,7 @@ namespace Bravure.Services
     {
         Task<UserDto> CreateAsync(CreateUserDto input);
         Task DeleteAsync(Guid id);
-        Task<UserDto> UpdateAsync(UserDto input);
+        Task<UserDto> UpdateAsync(UpdateUserDto input);
         Task<UserDto> GetUserAsync(Guid id);
         Task<List<UserDto>> GetAllUsersAsync();
     }

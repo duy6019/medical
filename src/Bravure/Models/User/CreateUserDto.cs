@@ -1,4 +1,5 @@
-﻿using Bravure.Entities;
+﻿using System;
+using Bravure.Entities;
 using Bravure.Entities.Enums;
 
 namespace Bravure.Models.User
@@ -11,7 +12,7 @@ namespace Bravure.Models.User
         public string PositionTitle { get; set; }
         public string Position { get; set; }
         public string IdentityNumber { get; set; }
-        public string DepartmentId { get; set; }
+        public Guid DepartmentId { get; set; }
         public Gender Gender { get; set; }
         public string PasswordHash { get; set; }
         public string Password { get; set; }

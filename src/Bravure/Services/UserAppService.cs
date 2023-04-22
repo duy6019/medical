@@ -40,9 +40,9 @@ public class UserAppService : IUserAppService
         return MapToEntityDto(user);
     }
 
-    public async Task<UserDto> UpdateAsync(UserDto input)
+    public async Task<UserDto> UpdateAsync(UpdateUserDto input)
     {
-        var user = await _userManager.FindByNameAsync(input.UserName);
+        var user = await _userManager.FindByIdAsync(input.Id.ToString());
         MapToEntity(input, user);
         user.PasswordHash = _passwordHasher.HashPassword(user, input.Password);
         await _userManager.UpdateAsync(user);
@@ -75,6 +75,11 @@ public class UserAppService : IUserAppService
     }
 
     protected void MapToEntity(UserDto input, ApplicationUser user)
+    {
+        _mapper.Map(input, user);
+    }
+
+    protected void MapToEntity(UpdateUserDto input, ApplicationUser user)
     {
         _mapper.Map(input, user);
     }
