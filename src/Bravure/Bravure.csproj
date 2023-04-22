@@ -17,6 +17,7 @@
       <EmbeddedResource Remove="Areas\**" />
       <None Remove="Abstractions\**" />
       <None Remove="Areas\**" />
+      <None Remove="Migrations\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -64,6 +65,7 @@
         <Folder Include="Services\" />
         <Folder Include="Entities\Enums\" />
         <Folder Include="Services\Abstractions\" />
+        <Folder Include="Migrations\" />
     </ItemGroup>
 
     <ItemGroup>

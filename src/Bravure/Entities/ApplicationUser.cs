@@ -13,7 +13,7 @@ namespace Bravure.Entities
         public string Position { get; set; }
         public Gender Gender { get; set; }
         public string IdentityNumber { get; set; }
-        public string DepartmentId { get; set; }
+        public Guid DepartmentId { get; set; }
 
         public virtual Department Department { get; set; }
         public virtual ICollection<IdentityUserRole<Guid>> Roles { get; set; }

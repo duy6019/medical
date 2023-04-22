@@ -30,6 +30,10 @@ namespace Bravure.Entities.Seed
 
                 var services = scope.ServiceProvider;
                 var config = serviceProvider.GetService<IConfiguration>();
+                if (!context.Departments.Any())
+                {
+                    SeedDepartments(context, contentPath);
+                }
 
                 var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
                 if (!context.Roles.Any())
@@ -49,17 +53,18 @@ namespace Bravure.Entities.Seed
         {
             try
             {
-                var csvPath = Path.Combine(contentPath, "data\\seeddata", @"user.csv");
-                var users = GetData(new string[] { "firstname", "lastname", "email", "userid" }, csvPath, (string[] x) =>
+                var csvPath = Path.Combine(contentPath, "data", "seeddata", @"user.csv");
+                var users = GetData(new string[] { "displayid", "firstname", "lastname", "email", "userid" }, csvPath, (string[] x) =>
                 {
                     var firstname = x[0].Replace("\'", "").Trim('"').Trim();
                     var lastname = x[1].Replace("\'", "").Trim('"').Trim();
                     return new
                     {
+                        DisplayId = x[0],
                         UserName = $"{firstname.Split(' ').Last()}.{lastname.Split(' ').Last()}".ToLower(),
-                        FirstName = x[0],
-                        LastName = x[1],
-                        FullName = $"{x[0]} {x[1]}",
+                        FirstName = x[1],
+                        LastName = x[2],
+                        FullName = $"{x[1]} {x[2]}",
                         Email = $"{firstname.Split(' ').Last()}.{lastname.Split(' ').Last()}@gmail.com".ToLower(),
                         UserId = x.Length > 3 ? GetGuid(x[3]) : new Guid(),
                         DateOfBirth = DateTime.Now
@@ -74,9 +79,11 @@ namespace Bravure.Entities.Seed
                         user = new ApplicationUser()
                         {
                             Id = s.UserId,
+                            DisplayId = s.DisplayId,
                             UserName = s.UserName,
                             FullName = s.FullName,
                             Email = s.Email,
+                            Department = context.Departments.FirstOrDefault()
                         };
                         var result = userMgr.CreateAsync(user, _defaultPasswordd).Result;
                         userMgr.AddToRoleAsync(user, "staff").Wait();
@@ -84,6 +91,47 @@ namespace Bravure.Entities.Seed
                         {
                             throw new Exception(result.Errors.First().Description);
                         }
+                        context.SaveChanges();
+                    }
+                }
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private static void SeedDepartments(BravureDbContext context, string contentPath)
+        {
+            try
+            {
+                var csvPath = Path.Combine(contentPath, "data", "seeddata", @"department.csv");
+                var departments = GetData(new string[] { "displayid", "name", "phonenumber", "address" }, csvPath, (string[] x) =>
+                {
+                    return new
+                    {
+                        DisplayId = x[0],
+                        Name = x[1],
+                        PhoneNumber = x[2],
+                        Address = x[3]
+                    };
+                }, () => null);
+
+                foreach (var s in departments)
+                {
+                    var department = context.Departments.FirstOrDefault(x => x.Name == s.Name);
+                    if (department == null)
+                    {
+                        department = new Department()
+                        {
+                            DisplayId = s.DisplayId,
+                            Name = s.Name,
+                            Address = s.Address,
+                            PhoneNumber = s.PhoneNumber
+                        };
+
+                        context.Add(department);
                         context.SaveChanges();
                     }
                 }

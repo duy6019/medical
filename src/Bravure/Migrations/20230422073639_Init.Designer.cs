@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bravure.Migrations
 {
     [DbContext(typeof(BravureDbContext))]
-    [Migration("20230420175534_init")]
-    partial class init
+    [Migration("20230422073639_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,10 +67,7 @@ namespace Bravure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<string>("DepartmentId")
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("DepartmentId1")
+                    b.Property<Guid>("DepartmentId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("DisplayId")
@@ -133,7 +130,7 @@ namespace Bravure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId1");
+                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -483,7 +480,9 @@ namespace Bravure.Migrations
                 {
                     b.HasOne("Bravure.Entities.Department", "Department")
                         .WithMany()
-                        .HasForeignKey("DepartmentId1");
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Department");
                 });
@@ -513,7 +512,7 @@ namespace Bravure.Migrations
             modelBuilder.Entity("Bravure.Entities.MedicalExamination", b =>
                 {
                     b.HasOne("Bravure.Entities.Patient", "Patient")
-                        .WithMany("GetExaminations")
+                        .WithMany("Examinations")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -609,7 +608,7 @@ namespace Bravure.Migrations
 
             modelBuilder.Entity("Bravure.Entities.Patient", b =>
                 {
-                    b.Navigation("GetExaminations");
+                    b.Navigation("Examinations");
                 });
 #pragma warning restore 612, 618
         }
