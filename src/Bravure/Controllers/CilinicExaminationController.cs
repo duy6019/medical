@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Bravure.Entities;
 using Bravure.Services;
+using Bravure.Models.Examinations;
 
 namespace Bravure.Controllers
 {
@@ -39,22 +40,22 @@ namespace Bravure.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Patient> CreateCilinicExamination(CilinicExamination cilinicExamination)
+        public ActionResult<Patient> CreateCilinicExamination([FromBody]CilinicExaminationDto dto)
         {
-            _cilinicExaminationService.CreateCilinicExamination(cilinicExamination);
-            return CreatedAtAction(nameof(GetCilinicExamination), new { id = cilinicExamination.Id }, cilinicExamination);
+            _cilinicExaminationService.CreateCilinicExamination(dto);
+            return CreatedAtAction(nameof(GetCilinicExamination), new { id = dto.Id }, dto);
         }
 
         [HttpPut]
         [Route("update/{id}")]
-        public IActionResult UpdateCilinicExamination([FromRoute] Guid id, [FromBody] CilinicExamination cilinicExamination)
+        public IActionResult UpdateCilinicExamination([FromRoute] Guid id, [FromBody]CilinicExaminationDto dto)
         {
-            if (id != cilinicExamination.Id)
+            if (id != dto.Id)
             {
                 return BadRequest();
             }
 
-            _cilinicExaminationService.UpdateCilinicExamination(cilinicExamination);
+            _cilinicExaminationService.UpdateCilinicExamination(dto);
             return NoContent();
         }
 

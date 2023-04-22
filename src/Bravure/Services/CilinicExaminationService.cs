@@ -5,21 +5,32 @@ using Bravure.Entities.Enums;
 using Bravure.Entities.Abstractions;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Bravure.Models.Examinations;
+using Bravure.Exceptions;
+using AutoMapper;
+using Humanizer;
 
 namespace Bravure.Services;
 
 public class CilinicExaminationService : ICilinicExaminationService
 {
     private readonly BravureDbContext _context;
+    private readonly IMapper _mapper;
 
-    public CilinicExaminationService(BravureDbContext context)
+    public CilinicExaminationService(BravureDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
-    public void CreateCilinicExamination(CilinicExamination medicalExamination)
+    public void CreateCilinicExamination(CilinicExaminationDto dto)
     {
-        _context.CilinicExaminations.Add(medicalExamination);
+        if(_context.CilinicExaminations.Any(x => x.DisplayID == dto.DisplayID))
+        {
+            throw new BadRequestException("Mã khám đã tồn tại!");
+        }
+
+        _context.CilinicExaminations.Add(_mapper.Map<CilinicExamination>(dto));
         _context.SaveChanges();
     }
 
@@ -35,10 +46,14 @@ public class CilinicExaminationService : ICilinicExaminationService
             .ToList();
     }
 
-    public void UpdateCilinicExamination(CilinicExamination medicalExamination)
+    public void UpdateCilinicExamination(CilinicExaminationDto dto)
     {
-        // Validation logic, if any
-        _context.CilinicExaminations.Update(medicalExamination);
+        if (_context.CilinicExaminations.Any(x => x.DisplayID == dto.DisplayID && x.Id != dto.Id))
+        {
+            throw new BadRequestException("Mã khám đã tồn tại!");
+        }
+
+        _context.CilinicExaminations.Update(_mapper.Map<CilinicExamination>(dto));
         _context.SaveChanges();
     }
 
