@@ -36,7 +36,7 @@ namespace Bravure.Controllers
         public ActionResult<List<CilinicExamination>> GetAllCilinicExaminations()
         {
             var result = _cilinicExaminationService.GetAllCilinicExaminations();
-            return Ok(result);
+            return Ok(new {items = result});
         }
 
         [HttpPost]

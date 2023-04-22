@@ -35,8 +35,8 @@ namespace Bravure.Controllers
         [Route("all")]
         public ActionResult<List<MedicalAssistance>> GetAllMedicalAssistances()
         {
-            var MedicalAssistances = _medicalAssistanceService.GetAllMedicalAssistances();
-            return Ok(MedicalAssistances);
+            var result = _medicalAssistanceService.GetAllMedicalAssistances();
+            return Ok(new { items = result });
         }
 
         [HttpPost]

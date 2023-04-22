@@ -36,7 +36,7 @@ namespace Bravure.Controllers
         public ActionResult<List<MedicalExamination>> GetAllMedicalExaminations()
         {
             var result = _medicalExaminationService.GetAllMedicalExaminations();
-            return Ok(result);
+            return Ok(new { items = result });
         }
 
         [HttpPost]

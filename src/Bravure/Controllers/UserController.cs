@@ -56,8 +56,8 @@ public class UserController : ControllerBase
     {
         try
         {
-            var users = await _userAppService.GetAllUsersAsync();
-            return Ok(users);
+            var result = await _userAppService.GetAllUsersAsync();
+            return Ok(new { items = result });
         }
         catch (Exception ex)
         {
