@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Bravure.Entities;
 using Bravure.Services;
+using Bravure.Models.Patients;
 
 namespace Bravure.Controllers
 {
@@ -39,7 +40,7 @@ namespace Bravure.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Patient> CreatePatient(Patient patient)
+        public ActionResult<Patient> CreatePatient(PatientDto patient)
         {
             _patientService.CreatePatient(patient);
             return CreatedAtAction(nameof(GetPatient), new { id = patient.Id }, patient);
@@ -47,7 +48,7 @@ namespace Bravure.Controllers
 
         [HttpPut]
         [Route("update/{id}")]
-        public IActionResult UpdatePatient([FromRoute] Guid id, [FromBody] Patient patient)
+        public IActionResult UpdatePatient([FromRoute] Guid id, [FromBody] PatientDto patient)
         {
             if (id != patient.Id)
             {

@@ -4,20 +4,31 @@ using Bravure.Entities;
 using Bravure.Entities.Enums;
 using Bravure.Entities.Abstractions;
 using System.Linq;
+using Bravure.Models.Patients;
+using Bravure.Exceptions;
+using AutoMapper;
+
 namespace Bravure.Services;
 
 public class PatientService : IPatientService
 {
     private readonly BravureDbContext _context;
+    private readonly IMapper _mapper;
 
-    public PatientService(BravureDbContext context)
+    public PatientService(BravureDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
-    public void CreatePatient(Patient patient)
+    public void CreatePatient(PatientDto dto)
     {
-        _context.Patients.Add(patient);
+        if (_context.Patients.Any(x => x.DisplayID == dto.DisplayID))
+        {
+            throw new BadRequestException("Mã bệnh nhân tồn tại");
+        }
+
+        _context.Patients.Add(_mapper.Map<Patient>(dto));
         _context.SaveChanges();
     }
 
@@ -31,10 +42,14 @@ public class PatientService : IPatientService
         return _context.Patients.ToList();
     }
 
-    public void UpdatePatient(Patient patient)
+    public void UpdatePatient(PatientDto dto)
     {
-        // Validation logic, if any
-        _context.Patients.Update(patient);
+        if(_context.Patients.Any(x => x.DisplayID == dto.DisplayID && x.Id != dto.Id))
+        {
+            throw new BadRequestException("Mã bệnh nhân tồn tại");
+        }
+
+        _context.Patients.Update(_mapper.Map<Patient>(dto));
         _context.SaveChanges();
     }
 
