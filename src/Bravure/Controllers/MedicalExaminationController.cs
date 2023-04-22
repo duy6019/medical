@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Bravure.Entities;
 using Bravure.Services;
+using Bravure.Models.Examinations;
 
 namespace Bravure.Controllers
 {
@@ -39,22 +40,22 @@ namespace Bravure.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Patient> CreateMedicalExamination(MedicalExamination medicalExamination)
+        public ActionResult<Patient> CreateMedicalExamination(MedicalExaminationDto dto)
         {
-            _medicalExaminationService.CreateMedicalExamination(medicalExamination);
-            return CreatedAtAction(nameof(GetMedicalExamination), new { id = medicalExamination.Id }, medicalExamination);
+            _medicalExaminationService.CreateMedicalExamination(dto);
+            return CreatedAtAction(nameof(GetMedicalExamination), new { id = dto.Id }, dto);
         }
 
         [HttpPut]
         [Route("update/{id}")]
-        public IActionResult UpdateMedicalExamination([FromRoute] Guid id, [FromBody] MedicalExamination medicalExamination)
+        public IActionResult UpdateMedicalExamination([FromRoute] Guid id, [FromBody]MedicalExaminationDto dto)
         {
-            if (id != medicalExamination.Id)
+            if (id != dto.Id)
             {
                 return BadRequest();
             }
 
-            _medicalExaminationService.UpdateMedicalExamination(medicalExamination);
+            _medicalExaminationService.UpdateMedicalExamination(dto);
             return NoContent();
         }
 
